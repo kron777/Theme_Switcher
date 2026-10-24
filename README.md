@@ -79,6 +79,13 @@ dependency at all.
   entries, and oversized/zip-bomb archives are all rejected before a
   single file is written. Nothing from inside a downloaded archive is
   ever executed.
+- **Content scanner.** After extraction, every file is checked against
+  what a real theme can legitimately contain (CSS, INI, images, XCursor
+  binaries) — by actual file content, not just by extension, so a script
+  or compiled binary renamed with a `.png`/`.css` extension is still
+  caught. If anything doesn't belong, the whole install is blocked and
+  nothing is left on disk — not the extracted files, not the original
+  download.
 
 ## Uninstall
 

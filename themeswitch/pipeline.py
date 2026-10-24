@@ -13,6 +13,7 @@ from . import config
 from . import downloader
 from . import archive
 from . import installer
+from . import scanner
 from . import backup as backup_mod
 
 
@@ -54,6 +55,21 @@ class Pipeline:
             return None, res.error
 
         self.log(f"extracted {len(res.extracted_files)} file(s)")
+
+        self.log("scanning extracted files for anything that isn't a theme asset")
+        scan = scanner.scan_directory(extract_dest)
+        if not scan.ok:
+            details = "; ".join(f"{f.path}: {f.reason}" for f in scan.findings[:5])
+            self.log(f"SCAN BLOCKED install — {len(scan.findings)} suspicious file(s): {details}")
+            shutil.rmtree(extract_dest, ignore_errors=True)
+            try:
+                os.remove(dl.path)
+            except OSError:
+                pass
+            return None, (f"Blocked: this archive contains {len(scan.findings)} file(s) that "
+                           f"aren't legitimate theme assets ({details}). Nothing was installed.")
+
+        self.log(f"scan clean — {scan.files_scanned} file(s) checked, all recognised theme assets")
         return extract_dest, None
 
     def apply(self, source_url: str, theme_name: str, components: list):
