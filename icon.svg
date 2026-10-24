@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#05080b"/>
+      <stop offset="100%" stop-color="#0a1016"/>
+    </linearGradient>
+    <linearGradient id="edge" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#37e6ff"/>
+      <stop offset="100%" stop-color="#159cba"/>
+    </linearGradient>
+    <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="3.5" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <rect width="256" height="256" rx="44" fill="url(#bg)"/>
+
+  <!-- outer hex frame, control-panel feel -->
+  <path d="M128 28 L206 72 L206 184 L128 228 L50 184 L50 72 Z"
+        fill="none" stroke="url(#edge)" stroke-width="4" filter="url(#glow)"/>
+
+  <!-- inner rotating-dial motif: two offset rings suggesting a theme switch -->
+  <circle cx="128" cy="128" r="56" fill="none" stroke="#1c3a4a" stroke-width="3"/>
+  <circle cx="128" cy="128" r="56" fill="none" stroke="#37e6ff" stroke-width="3"
+          stroke-dasharray="18 14" filter="url(#glow)"/>
+  <circle cx="128" cy="128" r="30" fill="none" stroke="#159cba" stroke-width="3"/>
+
+  <!-- switch indicator -->
+  <circle cx="128" cy="98" r="6" fill="#37e6ff" filter="url(#glow)"/>
+  <line x1="128" y1="128" x2="128" y2="104" stroke="#d8f6ff" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="128" cy="128" r="5" fill="#d8f6ff"/>
+
+  <!-- corner ticks -->
+  <g stroke="#37e6ff" stroke-width="2.5" opacity="0.8">
+    <line x1="50" y1="72" x2="64" y2="80"/>
+    <line x1="206" y1="72" x2="192" y2="80"/>
+    <line x1="50" y1="184" x2="64" y2="176"/>
+    <line x1="206" y1="184" x2="192" y2="176"/>
+  </g>
+</svg>

@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=ThemeSwitch
+GenericName=Desktop Theme Installer
+Comment=One-click desktop theme installer and restorer
+Exec=python3 __INSTALL_DIR__/themeswitch.py
+Path=__INSTALL_DIR__
+Icon=__INSTALL_DIR__/icon.svg
+Terminal=false
+Categories=Settings;DesktopSettings;GTK;
+StartupNotify=true

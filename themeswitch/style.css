@@ -1,0 +1,151 @@
+/* THEMESWITCH — cyberdeck interface */
+
+window {
+  background-color: #07090c;
+  color: #c9e8ff;
+}
+
+.ts-header {
+  background-color: #0a0d12;
+  border-bottom: 1px solid #1c3a4a;
+  padding: 14px 20px;
+}
+
+.ts-title {
+  font-family: monospace;
+  font-size: 22px;
+  font-weight: bold;
+  letter-spacing: 4px;
+  color: #37e6ff;
+  text-shadow: 0 0 8px rgba(55, 230, 255, 0.45);
+}
+
+.ts-subtitle {
+  font-family: monospace;
+  font-size: 11px;
+  letter-spacing: 3px;
+  color: #4f7a8c;
+}
+
+.ts-status-pill {
+  font-family: monospace;
+  font-size: 11px;
+  letter-spacing: 1px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid #1c3a4a;
+  background-color: rgba(55, 230, 255, 0.06);
+  color: #37e6ff;
+}
+
+.ts-panel {
+  background-color: #0c1016;
+  border: 1px solid #16232c;
+  border-radius: 10px;
+  padding: 16px;
+}
+
+.ts-panel-glow {
+  border: 1px solid #1f6b7f;
+  box-shadow: 0 0 18px rgba(31, 107, 127, 0.25);
+}
+
+.ts-label {
+  font-family: monospace;
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: #5e8aa0;
+}
+
+.ts-url-entry {
+  font-family: monospace;
+  font-size: 14px;
+  background-color: #060a0e;
+  color: #d8f6ff;
+  border: 1px solid #1c3a4a;
+  border-radius: 8px;
+  padding: 10px 12px;
+  caret-color: #37e6ff;
+}
+
+.ts-url-entry:focus {
+  border-color: #37e6ff;
+  box-shadow: 0 0 10px rgba(55, 230, 255, 0.35);
+}
+
+.ts-btn {
+  font-family: monospace;
+  font-size: 12px;
+  letter-spacing: 1.5px;
+  padding: 9px 16px;
+  border-radius: 7px;
+  border: 1px solid #1c3a4a;
+  background-color: #0e1620;
+  color: #9fd8ec;
+}
+
+.ts-btn:hover {
+  border-color: #37e6ff;
+  background-color: #132331;
+  color: #d8f6ff;
+}
+
+.ts-btn-primary {
+  border-color: #159cba;
+  background-color: rgba(21, 156, 186, 0.15);
+  color: #6fe9ff;
+}
+
+.ts-btn-primary:hover {
+  background-color: rgba(21, 156, 186, 0.28);
+  box-shadow: 0 0 14px rgba(55, 230, 255, 0.3);
+}
+
+.ts-btn-danger {
+  border-color: #8a3b3b;
+  background-color: rgba(138, 59, 59, 0.14);
+  color: #ff9a9a;
+}
+
+.ts-btn-danger:hover {
+  background-color: rgba(138, 59, 59, 0.26);
+  box-shadow: 0 0 14px rgba(255, 110, 110, 0.25);
+}
+
+.ts-component-row {
+  background-color: #0a0e13;
+  border: 1px solid #16232c;
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+
+.ts-component-kind {
+  font-family: monospace;
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  color: #37e6ff;
+}
+
+.ts-log {
+  font-family: monospace;
+  font-size: 11px;
+  background-color: #05080b;
+  color: #7fb8c9;
+  border: 1px solid #16232c;
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.ts-ok { color: #6fff9f; }
+.ts-warn { color: #ffd76f; }
+.ts-err { color: #ff8585; }
+
+.ts-progress trough {
+  background-color: #0a0e13;
+  border-radius: 999px;
+}
+.ts-progress progress {
+  background-color: #37e6ff;
+  border-radius: 999px;
+  box-shadow: 0 0 8px rgba(55, 230, 255, 0.5);
+}
