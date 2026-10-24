@@ -249,10 +249,20 @@ class ThemeSwitchWindow(Gtk.ApplicationWindow):
         self._pending_candidates = result.candidates
         self.current_theme_name = result.project_name
 
-        for cand in result.candidates:
+        if len(result.candidates) > 1:
+            hint = Gtk.Label(
+                xalign=0, wrap=True,
+                label="Multiple links found — these are often just different formats of the "
+                      "SAME theme (.zip vs .tar.gz), not different themes. Only the first is "
+                      "pre-selected to avoid installing duplicates; tick others only if you "
+                      "actually want them too.")
+            hint.add_css_class("ts-label")
+            self.components_box.append(hint)
+
+        for i, cand in enumerate(result.candidates):
             row = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
             row.add_css_class("ts-component-row")
-            check = Gtk.CheckButton(active=True)
+            check = Gtk.CheckButton(active=(i == 0))  # only the first candidate by default
             label = Gtk.Label(label=f"{cand.filename_hint}  ({cand.kind_guess})", xalign=0, hexpand=True)
             row.append(check)
             row.append(label)
@@ -267,7 +277,8 @@ class ThemeSwitchWindow(Gtk.ApplicationWindow):
         candidates = getattr(self, "_pending_candidates", None)
         if not candidates:
             return
-        selected_rows = [c for c in self.components_box if c._check.get_active()]
+        selected_rows = [c for c in self.components_box
+                          if hasattr(c, "_check") and c._check.get_active()]
         if not selected_rows:
             self._append_log("nothing selected to apply")
             return

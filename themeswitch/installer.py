@@ -83,11 +83,17 @@ def detect_components(extracted_root: str) -> DetectionResult:
             continue
 
         has_gtk, has_shell = _looks_like_gtk_or_shell(dirpath)
-        if has_gtk:
+        if has_gtk and has_shell:
+            # Same directory provides both — install it ONCE and apply both
+            # settings to that one copy, instead of copying it twice under
+            # two different names (which is wasteful and leaves confusingly
+            # renamed duplicates when the destination name collides).
+            result.components.append(Component("gtk-shell-theme", name, dirpath))
+        elif has_gtk:
             result.components.append(Component("gtk-theme", name, dirpath))
-        if has_shell:
+        elif has_shell:
             result.components.append(Component("shell-theme", name, dirpath))
-        if not has_gtk and not has_shell:
+        else:
             result.notes.append(f"found index.theme in {name} but couldn't tell what kind it is")
 
     # Wallpapers: standalone images not inside a detected theme directory.
@@ -177,7 +183,22 @@ def install_components(components: list, txn, log=lambda *_: None) -> list[str]:
         if not c.selected:
             continue
 
-        if c.kind == "gtk-theme":
+        if c.kind == "gtk-shell-theme":
+            dest = _unique_dest(config.THEMES_DIR, c.name)
+            if _copy_tree_tracked(c.source_dir, dest, txn, log):
+                applied = []
+                if backup_mod.schema_key_exists("org.gnome.desktop.interface", "gtk-theme"):
+                    _gsettings_set("org.gnome.desktop.interface", "gtk-theme", os.path.basename(dest))
+                    applied.append("GTK")
+                if backup_mod.schema_key_exists("org.gnome.shell.extensions.user-theme", "name"):
+                    _gsettings_set("org.gnome.shell.extensions.user-theme", "name", os.path.basename(dest))
+                    applied.append("Shell")
+                results.append(f"Applied {' + '.join(applied) or 'no'} theme(s): {os.path.basename(dest)}"
+                                if applied else
+                                f"Installed theme files ({os.path.basename(dest)}) but neither "
+                                f"gtk-theme nor the User Themes extension is available")
+
+        elif c.kind == "gtk-theme":
             dest = _unique_dest(config.THEMES_DIR, c.name)
             if _copy_tree_tracked(c.source_dir, dest, txn, log):
                 if backup_mod.schema_key_exists("org.gnome.desktop.interface", "gtk-theme"):

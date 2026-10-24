@@ -32,14 +32,26 @@ class TestDetection(unittest.TestCase):
         kinds = [c.kind for c in det.components]
         self.assertIn("gtk-theme", kinds)
 
-    def test_detects_shell_theme_alongside_gtk(self):
+    def test_gtk_and_shell_in_same_dir_merged_into_one_component(self):
+        # A theme folder providing both must become ONE component, not two
+        # — installing it twice under two different names is both wasteful
+        # and confusing (this was a real bug: "TailyaGTK-main" and
+        # "TailyaGTK-main-themeswitch-2" both installed from the same dir).
         root = os.path.join(self.tmp, "MyTheme")
         _write_index_theme(root)
         os.makedirs(os.path.join(root, "gtk-4.0"))
         os.makedirs(os.path.join(root, "gnome-shell"))
         det = installer.detect_components(self.tmp)
-        kinds = sorted(c.kind for c in det.components)
-        self.assertEqual(kinds, ["gtk-theme", "shell-theme"])
+        self.assertEqual(len(det.components), 1)
+        self.assertEqual(det.components[0].kind, "gtk-shell-theme")
+
+    def test_gtk_only_without_shell_stays_separate_kind(self):
+        root = os.path.join(self.tmp, "MyTheme")
+        _write_index_theme(root)
+        os.makedirs(os.path.join(root, "gtk-4.0"))
+        det = installer.detect_components(self.tmp)
+        kinds = [c.kind for c in det.components]
+        self.assertEqual(kinds, ["gtk-theme"])
 
     def test_detects_icon_theme_size_first_layout(self):
         root = os.path.join(self.tmp, "MyIcons")
